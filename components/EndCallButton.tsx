@@ -26,6 +26,19 @@ const EndCallButton = () => {
   if (!isMeetingOwner) return null;
 
   const endCall = async () => {
+    // Turn off camera and microphone before ending the call
+    if (localParticipant) {
+      // Turn off camera
+      if (localParticipant.publishedTracks.includes('camera')) {
+        localParticipant.setCameraEnabled(false);
+      }
+      // Turn off microphone
+      if (localParticipant.publishedTracks.includes('microphone')) {
+        localParticipant.setMicrophoneEnabled(false);
+      }
+    }
+    
+    // End the call for everyone
     await call.endCall();
     router.push('/');
   };
